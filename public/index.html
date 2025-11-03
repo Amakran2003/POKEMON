@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+  <body>
+    <h1>Pokémon mini front (no CSS)</h1>
+
+    <section>
+      <h2>Add Pokémon</h2>
+      <input id="pokeName" placeholder="Pokemon name" />
+      <button id="btnAddPokemon">Add</button>
+    </section>
+
+    <section>
+      <h2>Add Attack to a Pokémon</h2>
+      <label>Pick Pokémon:
+        <select id="selPoke"></select>
+      </label>
+      <input id="atkName" placeholder="Attack name" />
+      <input id="atkDmg" type="number" placeholder="Damage" />
+      <input id="atkLimit" type="number" placeholder="Usage limit" />
+      <button id="btnAddAttack">Add attack</button>
+    </section>
+
+    <section>
+      <h2>State</h2>
+      <pre id="state"></pre>
+    </section>
+
+    <script type="module">
+      import Attack from "/dist/domain/Attack.js";
+      import Pokemon from "/dist/domain/Pokemon.js";
+
+      const pokedex = [];
+
+      const elPokeName = document.getElementById("pokeName");
+      const elBtnAddPokemon = document.getElementById("btnAddPokemon");
+      const elSelPoke = document.getElementById("selPoke");
+      const elAtkName = document.getElementById("atkName");
+      const elAtkDmg = document.getElementById("atkDmg");
+      const elAtkLimit = document.getElementById("atkLimit");
+      const elBtnAddAttack = document.getElementById("btnAddAttack");
+      const elState = document.getElementById("state");
+
+      function refreshSelect() {
+        elSelPoke.innerHTML = "";
+        pokedex.forEach((p, i) => {
+          const opt = document.createElement("option");
+          opt.value = String(i);
+          opt.textContent = `${p.name} (HP:${p.lifePoint})`;
+          elSelPoke.appendChild(opt);
+        });
+      }
+
+      function showState() {
+        const view = pokedex.map(p => ({
+          name: p.name,
+          lifePoint: p.lifePoint,
+          attacks: p.attacks.map(a => a.info()),
+        }));
+        elState.textContent = JSON.stringify(view, null, 2);
+      }
+
+      elBtnAddPokemon.addEventListener("click", () => {
+        const name = elPokeName.value.trim();
+        if (!name) return alert("Name required");
+        pokedex.push(new Pokemon(name));
+        elPokeName.value = "";
+        refreshSelect();
+        showState();
+      });
+
+      elBtnAddAttack.addEventListener("click", () => {
+        if (pokedex.length === 0) return alert("Add a pokemon first");
+        const idx = Number(elSelPoke.value);
+        const p = pokedex[idx];
+
+        const n = elAtkName.value.trim();
+        const d = Number(elAtkDmg.value);
+        const lim = Number(elAtkLimit.value);
+        if (!n) return alert("Attack name required");
+        if (Number.isNaN(d) || Number.isNaN(lim)) return alert("Damage/limit must be numbers");
+
+        try {
+          p.learn(new Attack(n, d, lim)); // you already implement 'learn'
+          elAtkName.value = ""; elAtkDmg.value = ""; elAtkLimit.value = "";
+        } catch (e) {
+          alert((e && e.message) ? e.message : "Error");
+        }
+        refreshSelect();
+        showState();
+      });
+
+      // initial
+      refreshSelect();
+      showState();
+    </script>
+  </body>
+</html>
