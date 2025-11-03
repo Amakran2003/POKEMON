@@ -36,7 +36,7 @@ export default class Trainer {
         for (let i = 0; i < this.pokemons.length; i++){
             this.pokemons[i].heal()
         }
-        console.log(`${this.name} a soigné tous ses Pokémon.`);
+        console.log(`${this.name} a soigné tous ses Pokémon.`)
     }
 
     gainExperience(exp: number): void {
@@ -58,46 +58,45 @@ export default class Trainer {
     }
 
 fightRandom(opponent: Trainer): void {
-  this.healAll();
-  opponent.healAll();
+  this.healAll()
+  opponent.healAll()
 
-  const randomIndex = Math.floor(Math.random() * this.pokemons.length);
-  const myPokemon = this.pokemons[randomIndex];
+  const randomIndex = Math.floor(Math.random() * this.pokemons.length)
+  const myPokemon = this.pokemons[randomIndex]
 
-  const opponentIndex = Math.floor(Math.random() * opponent.pokemons.length);
-  const theirPokemon = opponent.pokemons[opponentIndex];
+  const opponentIndex = Math.floor(Math.random() * opponent.pokemons.length)
+  const theirPokemon = opponent.pokemons[opponentIndex]
 
-  console.log(`${this.name} a choisi ${myPokemon.getName()}!`);
-  console.log(`${opponent.getName()} a choisi ${theirPokemon.getName()}!`);
-  console.log("⚔️ Le combat commence !");
+  console.log(`${this.name} a choisi ${myPokemon.getName()}!`)
+  console.log(`${opponent.getName()} a choisi ${theirPokemon.getName()}!`)
+  console.log("⚔️ Le combat commence !")
 
-  // boucle de combat
   while (myPokemon.getLifePoints() > 0 && theirPokemon.getLifePoints() > 0) {
-    const myAttack = myPokemon.randomAttack();
-    const oppAttack = theirPokemon.randomAttack();
+    const myAttack = myPokemon.randomAttack()
+    const oppAttack = theirPokemon.randomAttack()
 
     if (!myAttack && !oppAttack) {
-      console.log("Aucun des deux Pokémon n’a d’attaques disponibles. Match nul !");
-      return;
+      console.log("Aucun des deux Pokémon n’a d’attaques disponibles. Match nul !")
+      return
     }
 
     if (myAttack) {
-      myPokemon.attack(theirPokemon);
+      myPokemon.attack(theirPokemon)
       if (theirPokemon.getLifePoints() <= 0) {
-        console.log(`${theirPokemon.getName()} est K.O.!`);
-        console.log(`${this.name} remporte la victoire !`);
-        this.gainExperience(10);
-        return;
+        console.log(`${theirPokemon.getName()} est K.O.!`)
+        console.log(`${this.name} remporte la victoire !`)
+        this.gainExperience(10)
+        return
       }
     }
 
     if (oppAttack) {
-      theirPokemon.attack(myPokemon);
+      theirPokemon.attack(myPokemon)
       if (myPokemon.getLifePoints() <= 0) {
-        console.log(`${myPokemon.getName()} est K.O.!`);
-        console.log(`${opponent.getName()} remporte la victoire !`);
-        opponent.gainExperience(10);
-        return;
+        console.log(`${myPokemon.getName()} est K.O.!`)
+        console.log(`${opponent.getName()} remporte la victoire !`)
+        opponent.gainExperience(10)
+        return
       }
     }
   }

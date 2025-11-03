@@ -9,8 +9,8 @@ private attacks: Attack[]
 
   constructor(name: string) {
     this.name = name
-    this.lifePoints = 100   // valeur par défaut simple
-    this.attacks = []      // pas d’attaques au début
+    this.lifePoints = 100   
+    this.attacks = []      
   }
 
   learn(attack: Attack): void {

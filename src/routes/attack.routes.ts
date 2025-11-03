@@ -1,10 +1,10 @@
-import express from "express";
-import * as attackCtrl from "../controllers/attack.controller.js";
+import express from "express"
+import * as attackCtrl from "../controllers/attack.controller.js"
 
-const router = express.Router();
+const router = express.Router()
 
-router.get("/", attackCtrl.getAllAttacks);
-router.post("/", attackCtrl.createAttack);
-router.delete("/:id", attackCtrl.deleteAttack);
+router.get("/", attackCtrl.getAllAttacks)
+router.post("/", attackCtrl.createAttack)
+router.delete("/:id", attackCtrl.deleteAttack)
 
-export default router;
+export default router
